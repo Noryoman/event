@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقيم الزوار في مهرجان حصن بركاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            background-color: #008000; /* خلفية خضراء */
+            color: #ff0000; /* نص أحمر */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #333; /* خلفية رمادية داكنة للتباين */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #ff0000; /* نص أحمر */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .gender-buttons, .satisfaction-buttons, .company-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .gender-btn, .satisfaction-btn, .company-btn {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #444; /* خلفية رمادية داكنة للتباين */
+            cursor: pointer;
+            text-align: center;
+            flex: 1;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff0000; /* نص أحمر */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gender-btn.active, .satisfaction-btn.active, .company-btn.active {
+            background-color: #ff0000; /* خلفية حمراء */
+            color: #fff; /* نص أبيض */
+        }
+
+        .gender-btn i, .company-btn i {
+            margin-left: 5px;
+        }
+
+        .satisfaction-btn i {
+            color: #ffd700; /* لون أيقونات الوجه ذهبي */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #ff0000; /* نص أحمر */
+        }
+
+        table, th, td {
+            border: 1px solid #fff; /* حدود بيضاء */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            background-color: #444; /* خلفية رمادية داكنة للتباين */
+        }
+
+        thead {
+            background-color: #555; /* خلفية رمادية داكنة أكثر */
+        }
+
+        .download-buttons {
+            margin-top: 20px;
+        }
+
+        .download-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff0000; /* خلفية حمراء */
+            color: white; /* نص أبيض */
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        #analysis {
+            margin-top: 20px;
+        }
+
+        #companyAnalysisTable {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff0000; /* خلفية حمراء */
+            color: white; /* نص أبيض */
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تقيم الزوار في مهرجان حصن بركاء</h1>
+
+        <div class="form-group">
+            <label>الجنس:</label>
+            <div class="gender-buttons">
+                <button id="maleButton" class="gender-btn" data-gender="ذكر" onclick="selectGender('ذكر')">
+                    <i class="fas fa-male"></i> ذكر
+                </button>
+                <button id="femaleButton" class="gender-btn" data-gender="أنثى" onclick="selectGender('أنثى')">
+                    <i class="fas fa-female"></i> أنثى
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>التعبيرات الوجهية:</label>
+            <div class="satisfaction-buttons">
+                <button id="happyButton" class="satisfaction-btn" data-satisfaction="سعيد" onclick="selectSatisfaction('سعيد')">
+                    <i class="fas fa-smile"></i> سعيد
+                </button>
+                <button id="neutralButton" class="satisfaction-btn" data-satisfaction="راض" onclick="selectSatisfaction('راض')">
+                    <i class="fas fa-meh"></i> راض
+                </button>
+                <button id="sadButton" class="satisfaction-btn" data-satisfaction="غير راض" onclick="selectSatisfaction('غير راض')">
+                    <i class="fas fa-frown"></i> غير راض
+                </button>
+                <button id="angryButton" class="satisfaction-btn" data-satisfaction="غاضب" onclick="selectSatisfaction('غاضب')">
+                    <i class="fas fa-angry"></i> غاضب
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>الشركات المشاركة:</label>
+            <div class="company-buttons">
+                <button id="strongChoiceButton" class="company-btn" data-company="الاختيار القوي" onclick="selectCompany('الاختيار القوي')">
+                    <i class="fas fa-building"></i> الاختيار القوي
+                </button>
+                <button id="omantelButton" class="company-btn" data-company="عمانتل" onclick="selectCompany('عمانتل')">
+                    <i class="fas fa-phone-alt"></i> عمانتل
+                </button>
+                <button id="oredooButton" class="company-btn" data-company="اوريدو" onclick="selectCompany('اوريدو')">
+                    <i class="fas fa-phone-alt"></i> اوريدو
+                </button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button onclick="addVisitor()">موافق</button>
+        </div>
+
+        <h2>قائمة الزوار</h2>
+        <table id="visitorTable">
+            <thead>
+                <tr>
+                    <th>الجنس</th>
+                    <th>التعبير</th>
+                    <th>الشركة</th>
+                    <th>وقت الدخول</th>
+                    <th>التاريخ</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div class="download-buttons">
+            <button onclick="downloadData('males')">تنزيل بيانات الذكور</button>
+            <button onclick="downloadData('females')">تنزيل بيانات الإناث</button>
+            <button onclick="downloadData('companies')">تنزيل بيانات الشركات</button>
+        </div>
+
+        <h2>التحليل</h2>
+        <div id="analysis">
+            <p id="totalMales">عدد الذكور: 0</p>
+            <p id="totalFemales">عدد الإناث: 0</p>
+            <p id="mostSelectedCompany">الشركة الأكثر اختياراً: -</p>
+
+            <h3>تفاصيل التصويت للشركات</h3>
+            <table id="companyAnalysisTable">
+                <thead>
+                    <tr>
+                        <th>الشركة</th>
+                        <th>عدد مرات التصويت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>الاختيار القوي</td><td id="strongChoiceCount">0</td></tr>
+                    <tr><td>عمانتل</td><td id="omantelCount">0</td></tr>
+                    <tr><td>اوريدو</td><td id="oredooCount">0</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script>
+        let visitors = [];
+        let maleCount = 0;
+        let femaleCount = 0;
+        let companyVotes = {
+            'الاختيار القوي': 0,
+            'عمانتل': 0,
+            'اوريدو': 0
+        };
+
+        function selectGender(gender) {
+            document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('active'));
+            if (gender === 'ذكر') {
+                document.getElementById('maleButton').classList.add('active');
+            } else {
+                document.getElementById('femaleButton').classList.add('active');
+            }
+            sessionStorage.setItem('selectedGender', gender);
+        }
+
+        function selectSatisfaction(satisfaction) {
+            document.querySelectorAll('.satisfaction-btn').forEach(btn => btn.classList.remove('active'));
+            switch(satisfaction) {
+                case 'سعيد':
+                    document.getElementById('happyButton').classList.add('active');
+                    break;
+                case 'راض':
+                    document.getElementById('neutralButton').classList.add('active');
+                    break;
+                case 'غير راض':
+                    document.getElementById('sadButton').classList.add('active');
+                    break;
+                case 'غاضب':
+                    document.getElementById('angryButton').classList.add('active');
+                    break;
+            }
+            sessionStorage.setItem('selectedSatisfaction', satisfaction);
+        }
+
+        function selectCompany(company) {
+            document.querySelectorAll('.company-btn').forEach(btn => btn.classList.remove('active'));
+            switch(company) {
+                case 'الاختيار القوي':
+                    document.getElementById('strongChoiceButton').classList.add('active');
+                    break;
+                case 'عمانتل':
+                    document.getElementById('omantelButton').classList.add('active');
+                    break;
+                case 'اوريدو':
+                    document.getElementById('oredooButton').classList.add('active');
+                    break;
+            }
+            sessionStorage.setItem('selectedCompany', company);
+        }
+
+        function addVisitor() {
+            const gender = sessionStorage.getItem('selectedGender');
+            const satisfaction = sessionStorage.getItem('selectedSatisfaction');
+            const company = sessionStorage.getItem('selectedCompany');
+            const time = new Date().toLocaleTimeString();
+            const date = new Date().toLocaleDateString();
+
+            if (gender && satisfaction && company) {
+                const visitor = { gender, satisfaction, company, time, date };
+                visitors.push(visitor);
+
+                if (gender === 'ذكر') maleCount++;
+                else femaleCount++;
+
+                companyVotes[company]++;
+
+                updateTable();
+                updateAnalysis();
+            } else {
+                alert('يرجى اختيار الجنس، التعبير، والشركة قبل النقر على موافق.');
+            }
+        }
+
+        function updateTable() {
+            const tbody = document.querySelector('#visitorTable tbody');
+            tbody.innerHTML = '';
+            visitors.forEach(visitor => {
+                const row = `<tr>
+                    <td>${visitor.gender}</td>
+                    <td>${visitor.satisfaction}</td>
+                    <td>${visitor.company}</td>
+                    <td>${visitor.time}</td>
+                    <td>${visitor.date}</td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        function updateAnalysis() {
+            document.getElementById('totalMales').innerText = `عدد الذكور: ${maleCount}`;
+            document.getElementById('totalFemales').innerText = `عدد الإناث: ${femaleCount}`;
+
+            const mostSelectedCompany = Object.keys(companyVotes).reduce((a, b) => companyVotes[a] > companyVotes[b] ? a : b);
+            document.getElementById('mostSelectedCompany').innerText = `الشركة الأكثر اختياراً: ${mostSelectedCompany}`;
+
+            document.getElementById('strongChoiceCount').innerText = companyVotes['الاختيار القوي'];
+            document.getElementById('omantelCount').innerText = companyVotes['عمانتل'];
+            document.getElementById('oredooCount').innerText = companyVotes['اوريدو'];
+        }
+
+        function downloadData(type) {
+            let data = [];
+            if (type === 'males') {
+                data = visitors.filter(v => v.gender === 'ذكر');
+            } else if (type === 'females') {
+                data = visitors.filter(v => v.gender === 'أنثى');
+            } else if (type === 'companies') {
+                data = visitors;
+            }
+
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+            XLSX.writeFile(wb, `${type}.xlsx`);
+        }
+    </script>
+</body>
+</html>
