@@ -185,7 +185,7 @@
                 <tr>
                     <th>الجنس</th>
                     <th>التعبير</th>
-                    <th>الشركة</th>
+                    <th>الشركات</th>
                     <th>وقت الدخول</th>
                     <th>التاريخ</th>
                 </tr>
@@ -263,41 +263,44 @@
         }
 
         function selectCompany(company) {
-            document.querySelectorAll('.company-btn').forEach(btn => btn.classList.remove('active'));
-            switch(company) {
-                case 'الاختيار القوي':
-                    document.getElementById('strongChoiceButton').classList.add('active');
-                    break;
-                case 'عمانتل':
-                    document.getElementById('omantelButton').classList.add('active');
-                    break;
-                case 'اوريدو':
-                    document.getElementById('oredooButton').classList.add('active');
-                    break;
+            const button = document.querySelector(`.company-btn[data-company="${company}"]`);
+            if (button.classList.contains('active')) {
+                button.classList.remove('active');
+                sessionStorage.setItem('selectedCompanies', JSON.stringify(getSelectedCompanies().filter(c => c !== company)));
+            } else {
+                button.classList.add('active');
+                const selectedCompanies = getSelectedCompanies();
+                selectedCompanies.push(company);
+                sessionStorage.setItem('selectedCompanies', JSON.stringify(selectedCompanies));
             }
-            sessionStorage.setItem('selectedCompany', company);
+        }
+
+        function getSelectedCompanies() {
+            return JSON.parse(sessionStorage.getItem('selectedCompanies') || '[]');
         }
 
         function addVisitor() {
             const gender = sessionStorage.getItem('selectedGender');
             const satisfaction = sessionStorage.getItem('selectedSatisfaction');
-            const company = sessionStorage.getItem('selectedCompany');
+            const companies = getSelectedCompanies();
             const time = new Date().toLocaleTimeString();
             const date = new Date().toLocaleDateString();
 
-            if (gender && satisfaction && company) {
-                const visitor = { gender, satisfaction, company, time, date };
+            if (gender && satisfaction && companies.length > 0) {
+                const visitor = { gender, satisfaction, companies: companies.join(', '), time, date };
                 visitors.push(visitor);
 
                 if (gender === 'ذكر') maleCount++;
                 else femaleCount++;
 
-                companyVotes[company]++;
+                companies.forEach(company => {
+                    companyVotes[company]++;
+                });
 
                 updateTable();
                 updateAnalysis();
             } else {
-                alert('يرجى اختيار الجنس، التعبير، والشركة قبل النقر على موافق.');
+                alert('يرجى اختيار الجنس، التعبير، والشركات قبل النقر على موافق.');
             }
         }
 
@@ -308,7 +311,7 @@
                 const row = `<tr>
                     <td>${visitor.gender}</td>
                     <td>${visitor.satisfaction}</td>
-                    <td>${visitor.company}</td>
+                    <td>${visitor.companies}</td>
                     <td>${visitor.time}</td>
                     <td>${visitor.date}</td>
                 </tr>`;
