@@ -133,10 +133,10 @@
         <div class="form-group">
             <label>الجنس:</label>
             <div class="gender-buttons">
-                <button id="maleButton" class="gender-btn" data-gender="ذكر" onclick="selectGender('ذكر')">
+                <button id="maleButton" class="gender-btn" data-gender="ذكر">
                     <i class="fas fa-male"></i> ذكر
                 </button>
-                <button id="femaleButton" class="gender-btn" data-gender="أنثى" onclick="selectGender('أنثى')">
+                <button id="femaleButton" class="gender-btn" data-gender="أنثى">
                     <i class="fas fa-female"></i> أنثى
                 </button>
             </div>
@@ -145,16 +145,16 @@
         <div class="form-group">
             <label>التعبيرات الوجهية:</label>
             <div class="satisfaction-buttons">
-                <button id="happyButton" class="satisfaction-btn" data-satisfaction="سعيد" onclick="selectSatisfaction('سعيد')">
+                <button id="happyButton" class="satisfaction-btn" data-satisfaction="سعيد">
                     <i class="fas fa-smile"></i> سعيد
                 </button>
-                <button id="neutralButton" class="satisfaction-btn" data-satisfaction="راض" onclick="selectSatisfaction('راض')">
+                <button id="neutralButton" class="satisfaction-btn" data-satisfaction="راض">
                     <i class="fas fa-meh"></i> راض
                 </button>
-                <button id="sadButton" class="satisfaction-btn" data-satisfaction="غير راض" onclick="selectSatisfaction('غير راض')">
+                <button id="sadButton" class="satisfaction-btn" data-satisfaction="غير راض">
                     <i class="fas fa-frown"></i> غير راض
                 </button>
-                <button id="angryButton" class="satisfaction-btn" data-satisfaction="غاضب" onclick="selectSatisfaction('غاضب')">
+                <button id="angryButton" class="satisfaction-btn" data-satisfaction="غاضب">
                     <i class="fas fa-angry"></i> غاضب
                 </button>
             </div>
@@ -163,13 +163,13 @@
         <div class="form-group">
             <label>الشركات المشاركة:</label>
             <div class="company-buttons">
-                <button id="strongChoiceButton" class="company-btn" data-company="الاختيار القوي" onclick="selectCompany('الاختيار القوي')">
+                <button id="strongChoiceButton" class="company-btn" data-company="الاختيار القوي">
                     <i class="fas fa-building"></i> الاختيار القوي
                 </button>
-                <button id="omantelButton" class="company-btn" data-company="عمانتل" onclick="selectCompany('عمانتل')">
+                <button id="omantelButton" class="company-btn" data-company="عمانتل">
                     <i class="fas fa-phone-alt"></i> عمانتل
                 </button>
-                <button id="oredooButton" class="company-btn" data-company="اوريدو" onclick="selectCompany('اوريدو')">
+                <button id="oredooButton" class="company-btn" data-company="اوريدو">
                     <i class="fas fa-phone-alt"></i> اوريدو
                 </button>
             </div>
@@ -232,6 +232,22 @@
             'عمانتل': 0,
             'اوريدو': 0
         };
+
+        // إضافة مستمعات الأحداث على الأزرار
+        document.querySelectorAll('.gender-btn').forEach(button => {
+            button.addEventListener('click', () => selectGender(button.getAttribute('data-gender')));
+            button.addEventListener('touchstart', () => selectGender(button.getAttribute('data-gender')));
+        });
+
+        document.querySelectorAll('.satisfaction-btn').forEach(button => {
+            button.addEventListener('click', () => selectSatisfaction(button.getAttribute('data-satisfaction')));
+            button.addEventListener('touchstart', () => selectSatisfaction(button.getAttribute('data-satisfaction')));
+        });
+
+        document.querySelectorAll('.company-btn').forEach(button => {
+            button.addEventListener('click', () => selectCompany(button.getAttribute('data-company')));
+            button.addEventListener('touchstart', () => selectCompany(button.getAttribute('data-company')));
+        });
 
         function selectGender(gender) {
             document.querySelectorAll('.gender-btn').forEach(btn => btn.classList.remove('active'));
@@ -346,18 +362,6 @@
             XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
             XLSX.writeFile(wb, `${type}.xlsx`);
         }
-
-        document.querySelectorAll('.gender-btn').forEach(btn => {
-            btn.addEventListener('touchstart', () => selectGender(btn.getAttribute('data-gender')));
-        });
-
-        document.querySelectorAll('.satisfaction-btn').forEach(btn => {
-            btn.addEventListener('touchstart', () => selectSatisfaction(btn.getAttribute('data-satisfaction')));
-        });
-
-        document.querySelectorAll('.company-btn').forEach(btn => {
-            btn.addEventListener('touchstart', () => selectCompany(btn.getAttribute('data-company')));
-        });
     </script>
 </body>
 </html>
