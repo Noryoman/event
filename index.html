@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تقيم الزوار في مهرجان حصن بركاء</title>
+    <title>تقييم الزوار في مهرجان حصن بركاء</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -128,7 +128,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>تقيم الزوار في مهرجان حصن بركاء</h1>
+        <h1>تقييم الزوار في مهرجان حصن بركاء</h1>
 
         <div class="form-group">
             <label>الجنس:</label>
@@ -238,114 +238,4 @@
             if (gender === 'ذكر') {
                 document.getElementById('maleButton').classList.add('active');
             } else {
-                document.getElementById('femaleButton').classList.add('active');
-            }
-            sessionStorage.setItem('selectedGender', gender);
-        }
-
-        function selectSatisfaction(satisfaction) {
-            document.querySelectorAll('.satisfaction-btn').forEach(btn => btn.classList.remove('active'));
-            switch(satisfaction) {
-                case 'سعيد':
-                    document.getElementById('happyButton').classList.add('active');
-                    break;
-                case 'راض':
-                    document.getElementById('neutralButton').classList.add('active');
-                    break;
-                case 'غير راض':
-                    document.getElementById('sadButton').classList.add('active');
-                    break;
-                case 'غاضب':
-                    document.getElementById('angryButton').classList.add('active');
-                    break;
-            }
-            sessionStorage.setItem('selectedSatisfaction', satisfaction);
-        }
-
-        function selectCompany(company) {
-            const button = document.querySelector(`.company-btn[data-company="${company}"]`);
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-                sessionStorage.setItem('selectedCompanies', JSON.stringify(getSelectedCompanies().filter(c => c !== company)));
-            } else {
-                button.classList.add('active');
-                const selectedCompanies = getSelectedCompanies();
-                selectedCompanies.push(company);
-                sessionStorage.setItem('selectedCompanies', JSON.stringify(selectedCompanies));
-            }
-        }
-
-        function getSelectedCompanies() {
-            return JSON.parse(sessionStorage.getItem('selectedCompanies') || '[]');
-        }
-
-        function addVisitor() {
-            const gender = sessionStorage.getItem('selectedGender');
-            const satisfaction = sessionStorage.getItem('selectedSatisfaction');
-            const companies = getSelectedCompanies();
-            const time = new Date().toLocaleTimeString();
-            const date = new Date().toLocaleDateString();
-
-            if (gender && satisfaction && companies.length > 0) {
-                const visitor = { gender, satisfaction, companies: companies.join(', '), time, date };
-                visitors.push(visitor);
-
-                if (gender === 'ذكر') maleCount++;
-                else femaleCount++;
-
-                companies.forEach(company => {
-                    companyVotes[company]++;
-                });
-
-                updateTable();
-                updateAnalysis();
-            } else {
-                alert('يرجى اختيار الجنس، التعبير، والشركات قبل النقر على موافق.');
-            }
-        }
-
-        function updateTable() {
-            const tbody = document.querySelector('#visitorTable tbody');
-            tbody.innerHTML = '';
-            visitors.forEach(visitor => {
-                const row = `<tr>
-                    <td>${visitor.gender}</td>
-                    <td>${visitor.satisfaction}</td>
-                    <td>${visitor.companies}</td>
-                    <td>${visitor.time}</td>
-                    <td>${visitor.date}</td>
-                </tr>`;
-                tbody.innerHTML += row;
-            });
-        }
-
-        function updateAnalysis() {
-            document.getElementById('totalMales').innerText = `عدد الذكور: ${maleCount}`;
-            document.getElementById('totalFemales').innerText = `عدد الإناث: ${femaleCount}`;
-
-            const mostSelectedCompany = Object.keys(companyVotes).reduce((a, b) => companyVotes[a] > companyVotes[b] ? a : b);
-            document.getElementById('mostSelectedCompany').innerText = `الشركة الأكثر اختياراً: ${mostSelectedCompany}`;
-
-            document.getElementById('strongChoiceCount').innerText = companyVotes['الاختيار القوي'];
-            document.getElementById('omantelCount').innerText = companyVotes['عمانتل'];
-            document.getElementById('oredooCount').innerText = companyVotes['اوريدو'];
-        }
-
-        function downloadData(type) {
-            let data = [];
-            if (type === 'males') {
-                data = visitors.filter(v => v.gender === 'ذكر');
-            } else if (type === 'females') {
-                data = visitors.filter(v => v.gender === 'أنثى');
-            } else if (type === 'companies') {
-                data = visitors;
-            }
-
-            const ws = XLSX.utils.json_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-            XLSX.writeFile(wb, `${type}.xlsx`);
-        }
-    </script>
-</body>
-</html>
+               
